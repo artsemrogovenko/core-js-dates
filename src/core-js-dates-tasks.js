@@ -182,17 +182,17 @@ function formatDate(date) {
  * 1, 2024 => 8
  */
 function getCountWeekendsInMonth(month, year) {
-  const day =  24 * 60 * 60000;
-  const start=Date.parse(new Date(year,month-1));
-  const end= Date.parse(new Date(year,month));
-  let current= start;
-  const weekends=[];
-  while(current!==end){
-    const dayName= getDayName(new Date(current));
-    if(dayName==="Saturday" ||dayName=="Sunday"){
+  const day = 24 * 60 * 60000;
+  const start = Date.parse(new Date(year, month - 1));
+  const end = Date.parse(new Date(year, month));
+  let current = start;
+  const weekends = [];
+  while (current !== end) {
+    const dayName = getDayName(new Date(current));
+    if (dayName === 'Saturday' || dayName === 'Sunday') {
       weekends.push(1);
     }
-    current+=day;
+    current += day;
   }
   return weekends.length;
 }
@@ -212,14 +212,14 @@ function getCountWeekendsInMonth(month, year) {
  */
 function getWeekNumberByDate(date) {
   const day = 24 * 60 * 60000;
-  let current = new Date(date.getFullYear(),0,1);
-  let weekCount =0;
- 
-  while (current.getTime()<=date.getTime()) {
-    if(current.getDay()===1){
-      weekCount+=1;
+  let current = new Date(date.getFullYear(), 0, 1);
+  let weekCount = 0;
+
+  while (current.getTime() <= date.getTime()) {
+    if (current.getDay() === 1) {
+      weekCount += 1;
     }
-    current=new Date(current.getTime()+day);
+    current = new Date(current.getTime() + day);
   }
   return weekCount;
 }
@@ -236,9 +236,9 @@ function getWeekNumberByDate(date) {
  * Date(2023, 1, 1) => Date(2023, 9, 13)
  */
 function getNextFridayThe13th(date) {
-  let result=date;
-  while(result.getDate()!==13){
-    result=getNextFriday(result);
+  let result = date;
+  while (result.getDate() !== 13) {
+    result = getNextFriday(result);
   }
   return result;
 }
@@ -256,14 +256,10 @@ function getNextFridayThe13th(date) {
  */
 function getQuarter(date) {
   const month = date.getMonth();
-    if(month >=0 && month <=2)
-      return 1;
-    if(month >=3 && month <=5)
-      return 2;
-    if(month >=6 && month <=8)
-      return 3;
-    if(month >=9 && month <=11)
-      return 4;
+  if (month >= 0 && month <= 2) return 1;
+  if (month >= 3 && month <= 5) return 2;
+  if (month >= 6 && month <= 8) return 3;
+  return 4;
 }
 
 /**
@@ -302,10 +298,10 @@ function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
  */
 function isLeapYear(date) {
   const day = 24 * 60 * 60000;
-  const thisYear = new Date(date.getFullYear(),0,1);
-  const nextYear = new Date(date.getFullYear()+1,0,1);
-  const timevalue = nextYear.getTime()- thisYear.getTime();
-  return  timevalue/day ===366;
+  const thisYear = new Date(date.getFullYear(), 0, 1);
+  const nextYear = new Date(date.getFullYear() + 1, 0, 1);
+  const timevalue = nextYear.getTime() - thisYear.getTime();
+  return timevalue / day === 366;
 }
 
 module.exports = {
