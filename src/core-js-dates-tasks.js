@@ -72,11 +72,11 @@ function getDayName(date) {
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
 function getNextFriday(date) {
-  const day=24*60*60000;
-  let newDate= new Date(date);
+  const day = 24 * 60 * 60000;
+  let newDate = new Date(date);
   do {
-    newDate= new Date( Date.parse(newDate)+day);
-  }while(getDayName(newDate)!=="Friday") ;
+    newDate = new Date(Date.parse(newDate) + day);
+  } while (getDayName(newDate) !== 'Friday');
   return newDate;
 }
 
@@ -92,10 +92,10 @@ function getNextFriday(date) {
  * 2, 2024 => 29
  */
 function getCountDaysInMonth(month, year) {
-  const currentMonth=new Date(year, month-1);
-  const nextMonth=new Date(year, month);
-  const difference =Date.parse(nextMonth)-Date.parse(currentMonth);
-  return difference/24/60/60000;
+  const currentMonth = new Date(year, month - 1);
+  const nextMonth = new Date(year, month);
+  const difference = Date.parse(nextMonth) - Date.parse(currentMonth);
+  return difference / 24 / 60 / 60000;
 }
 
 /**
@@ -110,10 +110,10 @@ function getCountDaysInMonth(month, year) {
  * '2024-02-01T00:00:00.000Z', '2024-02-12T00:00:00.000Z'  => 12
  */
 function getCountDaysOnPeriod(dateStart, dateEnd) {
-  const start=Date.parse(dateStart)
-  const end=Date.parse(dateEnd)
-  const days = (end-start)/24/60/60000;
-  return days+1;
+  const start = Date.parse(dateStart);
+  const end = Date.parse(dateEnd);
+  const days = (end - start) / 24 / 60 / 60000;
+  return days + 1;
 }
 
 /**
@@ -134,16 +134,16 @@ function getCountDaysOnPeriod(dateStart, dateEnd) {
  * '2024-02-10', { start: '2024-02-02', end: '2024-03-02' } => true
  */
 function isDateInPeriod(date, period) {
-  const parser=(string)=>{
-    const array = string.split("-");
-    array.map(value=> value[0]==="0" ? value[1] : value);
-    return Date.parse( new Date(array[0],array[1]-1,array[2]));
+  const parser = (string) => {
+    const array = string.split('-');
+    array.map((value) => (value[0] === '0' ? value[1] : value));
+    return Date.parse(new Date(array[0], array[1] - 1, array[2]));
   };
-  const start= parser(period.start);
-  const end= parser(period.end);
-  const search= parser(date);
+  const start = parser(period.start);
+  const end = parser(period.end);
+  const search = parser(date);
 
-  return search>=start && search<=end ;
+  return search >= start && search <= end;
 }
 
 /**
@@ -158,13 +158,13 @@ function isDateInPeriod(date, period) {
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
 function formatDate(date) {
-  const day =new Date(date).getUTCDate();
-  const month =new Date(date).getUTCMonth()+1;
-  const year =new Date(date).getUTCFullYear();
-  const time =new Date(date).toLocaleTimeString("en-US").slice(-9,-2);
-  let hours = new Date(date).getUTCHours("en-US");
-  let estimate = (hours>=12 && hours<=23) ? "PM" : "AM";
-  (hours>12) ? hours-=12: hours;  
+  const day = new Date(date).getUTCDate();
+  const month = new Date(date).getUTCMonth() + 1;
+  const year = new Date(date).getUTCFullYear();
+  const time = new Date(date).toLocaleTimeString('en-US').slice(-9, -2);
+  let hours = new Date(date).getUTCHours('en-US');
+  const estimate = hours >= 12 && hours <= 23 ? 'PM' : 'AM';
+  if (hours > 12) hours -= 12;
   const result = `${month}/${day}/${year}, ${hours}${time}${estimate}`;
   return result;
 }
