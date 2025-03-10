@@ -280,8 +280,31 @@ function getQuarter(date) {
  * { start: '01-01-2024', end: '15-01-2024' }, 1, 3 => ['01-01-2024', '05-01-2024', '09-01-2024', '13-01-2024']
  * { start: '01-01-2024', end: '10-01-2024' }, 1, 1 => ['01-01-2024', '03-01-2024', '05-01-2024', '07-01-2024', '09-01-2024']
  */
-function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
-  throw new Error('Not implemented');
+function getWorkSchedule(period, countWorkDays, countOffDays) {
+  const parser = (string) => {
+    const array = string.split('-');
+    array.map((value) => (value[0] === '0' ? value[1] : value));
+    return Date.parse(new Date(array[2], array[1] - 1, array[0]));
+  };
+  const day = 24 * 60 * 60000;
+  let current = parser(period.start);
+  const end = parser(period.end);
+  const schedule = [];
+  while (current < end) {
+    for (let i = 0; i < countWorkDays; i += 1) {
+      schedule.push(
+        new Date(current).toLocaleDateString('ru-RU').replaceAll('.', '-')
+      );
+      current += day;
+    }
+    current += day * countOffDays;
+  }
+  if (current === end) {
+    schedule.push(
+      new Date(current).toLocaleDateString('ru-RU').replaceAll('.', '-')
+    );
+  }
+  return schedule;
 }
 
 /**
